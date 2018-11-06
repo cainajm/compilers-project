@@ -11,10 +11,13 @@ void initPilha(char TempS[]){
 	}
 }
 
-void desempilha(char TempS[], int i ){
-	for(int j = i; j >= 0; j--){
-		TempS[j] = TempS[j+1];
+int checkPilha(char TempS[]){
+	for(int i = 0; i < 100; i++){
+		if(TempS[i] != '0'){
+			return 0;
+		}
 	}
+	return 1;
 }
 
 int main() {
@@ -23,6 +26,7 @@ int main() {
 
     int TempN;
     char TempS[100] = "";
+	initPilha(TempS);
     int aux = 0;
     char str[100];    
     int numLinhas = 0;
@@ -43,35 +47,57 @@ int main() {
 			goto A;
 		}
 		else if(str[i] == '('){
-			p++;
 			i++;
 			goto C;
 		}
-		else if(str[i] ==  '\0'){
-		
+		else if(str[i] == ')' && p > 0){
+			i++;
+			goto D;
+		} else {
+			goto REJEITA;
 		}
+		
 		
 	B:
 		if(str[i] == '+'  || str[i] == '-' || str[i] == '/' || str[i] == '*'){
 			i++;
 			goto A;
 		}
+		else if(str[i] == ')' && p > 0){
+			i++;
+			goto D;
+		}
+		else if(str[i] ==  '\0'){
+			if(checkPilha(TempS) == 0){
+				goto REJEITA;
+			}
+			goto ACEITA;
+		}
 		
 	C:
-		TempS[p] = 'D';
-		p++;			
+		TempS[p] = 'D';	
+		p++;		
 		goto A;
 		
 	D:
-		if(str[i] == ')'){
-						
+		if(TempS[aux] == 'D'){
+			TempS[aux] = '0';
+			aux++;
+			goto B;
+		} else {
+			goto REJEITA;
 		}
 		
+		
 	ACEITA:
-		printf("Expressao aceita...");
+		printf("Expressao aceita...\n");
+		system("pause");
+		return 0;
 		
 	REJEITA:
-		printf("Expressao rejeitada...");
+		printf("Expressao rejeitada...\n");
+		system("pause");
+		return 0;
 		
 		
 
