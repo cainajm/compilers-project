@@ -59,15 +59,15 @@ int main() {
 		
 		
 	B:
-		if(str[i] == '+'  || str[i] == '-' || str[i] == '/' || str[i] == '*'){
+		if (str[i+1] == ')'){
+			goto REJEITA;
+		} else if(str[i] == '+'  || str[i] == '-' || str[i] == '/' || str[i] == '*'){
 			i++;
 			goto A;
-		}
-		else if(str[i] == ')' && p > 0){
+		} else if(str[i] == ')' && p > 0){
 			i++;
 			goto D;
-		}
-		else if(str[i] ==  '\0'){
+		} else if(str[i] ==  '\0'){
 			if(checkPilha(TempS) == 0){
 				goto REJEITA;
 			}
@@ -75,9 +75,13 @@ int main() {
 		}
 		
 	C:
-		TempS[p] = 'D';	
-		p++;		
-		goto A;
+		if(str[i] == ')'){
+			goto REJEITA;
+		} else {
+			TempS[p] = 'D';	
+			p++;		
+			goto A;
+		}
 		
 	D:
 		if(TempS[aux] == 'D'){
